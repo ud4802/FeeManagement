@@ -1,24 +1,35 @@
 {
-  "name": "server",
+  "name": "15tut",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
+  "description": "MongoDB tutorial",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon server",
+    "dev": "nodemon server"
   },
-  "keywords": [],
-  "author": "",
+  "author": "Dave Gray",
   "license": "ISC",
+  "engines": {
+    "node": "14.x"
+  },
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.20.1",
+    "amqplib": "^0.10.3",
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "express": "^4.18.2",
+    "crypto-js": "^4.1.1",
+    "date-fns": "^2.23.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-joi-validation": "^5.0.1",
     "joi": "^17.7.0",
     "joi-password-complexity": "^5.1.0",
-    "jsonwebtoken": "^9.0.0",
-    "mongoose": "^6.8.3",
-    "nodemon": "^2.0.20"
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.11",
+    "nodemailer": "^6.9.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
   }
 }
