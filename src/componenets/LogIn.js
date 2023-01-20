@@ -72,7 +72,7 @@ function LogIn() {
                 <h1>You are Logged in..!</h1>
                 <br/>
                 <p>
-                    <a href="#">Home</a>
+                    <a href="/home">Home</a>
                 </p>
             </section>
         ) : (
@@ -81,7 +81,6 @@ function LogIn() {
       {/* aria-live will show error message on screen immideately as soon as error occurs. */}
 
       <h1>Log In</h1>
-      <img src=""></img>
       <form onSubmit={handleSubmit}>
         <label htmlFor="username">Username :</label>
         <input
@@ -102,11 +101,24 @@ function LogIn() {
             value={pwd}
             required
             />
+        <p>
+            <span className="line">
 
+            <a href="/forgotp">Forgot Password?</a>
+            </span>
+        </p>
         <button>LogIn</button>
       </form>
+      <p>
+        Don't have an Account?
+        <br />
+        <span className="line">
+          {/* put router link here */}
+          <a href="/signup">Sign Up</a>
+        </span>
+      </p>
     </section>
-        )}
+    )}
     </>
   )
 }

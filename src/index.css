@@ -132,3 +132,12 @@ button {
     justify-content: center;
     align-items: center;
 }
+
+.navbar-brand{
+    color: #fff;
+}
+
+.navbar{
+    background-color: #F55734;
+    
+}

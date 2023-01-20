@@ -107,7 +107,7 @@ function SignUp() {
       <section>
         <h1>Success!</h1>
         <p>
-          <a href="#">Sign In</a>
+          <a href="/">Log In</a>
         </p>
       </section>
     ) : (
@@ -270,14 +270,14 @@ function SignUp() {
         </button>
       </form>
 
-      {/* <p>
+      <p>
         Already registered?
         <br />
         <span className="line">
-          put router link here
-          <a href="#">Sign In</a>
+          {/* put router link here */}
+          <a href="/">Log In</a>
         </span>
-      </p> */}
+      </p>
     </section>
     )}
     </>
