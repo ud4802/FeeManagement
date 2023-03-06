@@ -1,8 +1,14 @@
 // import React from 'react'
 import { useRef,useState,useEffect,useContext } from "react" ;
 import AuthContext from "../context/AuthProvider";
-
+import {Navigate, useNavigate } from 'react-router-dom';
+// import { TextField } from '@react-ui-org/react-ui';
 import axios from '../api/axios';
+import AddStudents from "./AddStudents";
+// import Button from 'react-bootstrap/Button';
+import { TextField } from '@mui/material'
+import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+
 const LOGIN_URL = '/auth';
 
 function LogIn() {
@@ -28,6 +34,7 @@ function LogIn() {
         console.log(user,pwd);
 
         try {
+            // <AddStudents user={user}/>
             const response = await axios.post(LOGIN_URL, 
                 JSON.stringify({user,pwd}),{
                     headers: {'Content-Type': 'application/json'},
@@ -43,6 +50,7 @@ function LogIn() {
             setUser('');
             setPwd('');
             setSuccess(true);
+            localStorage.setItem("auth",true);
         
         } catch (err) {
             if(!err?.response){
@@ -68,23 +76,27 @@ function LogIn() {
   return (
     <>
         {success ? (
-            <section>
-                <h1>You are Logged in..!</h1>
-                <br/>
-                <p>
-                    <a href="/home">Home</a>
-                </p>
-            </section>
+            
+           <Navigate replace to="/home"/>
         ) : (
-    <section>
+        <>
+            <h1 class="display-3">Login As a Co-ordinator</h1>
+        <br/>
+        <br/>
+        
+    <section className="login-page">
       <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-      {/* aria-live will show error message on screen immideately as soon as error occurs. */}
+
 
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
+
+        
+        <div className="form-group">
         <label htmlFor="username">Username :</label>
         <input
             type="text"
+            className="form-control"
             id="username"
             ref={userRef}
             autoComplete="off"
@@ -92,32 +104,41 @@ function LogIn() {
             value={user}
             required
             />
-
+           
         <label htmlFor="pasword">Password :</label>
         <input
             type="password"
             id="password"
+            className="form-control"
             onChange={(e) => setPwd(e.target.value)}
             value={pwd}
             required
             />
-        <p>
+        <p><small>
             <span className="line">
 
             <a href="/forgotp">Forgot Password?</a>
             </span>
+            </small>
         </p>
-        <button>LogIn</button>
+        </div>
+        <div className="align">
+        <Button variant="outline-dark" type="submit">LogIn</Button>
+      </div>
       </form>
       <p>
-        Don't have an Account?
-        <br />
+       <small> Don't have an Account?
+        
         <span className="line">
-          {/* put router link here */}
+          
           <a href="/signup">Sign Up</a>
         </span>
+        </small>
       </p>
     </section>
+      
+    
+    </>
     )}
     </>
   )

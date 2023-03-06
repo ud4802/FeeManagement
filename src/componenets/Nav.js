@@ -1,27 +1,89 @@
-import React from 'react'
+import React from "react";
 // import { ReactComponent as Logo } from './logo.svg';
+import img5 from "../DDU.png";
+import { Navigate, useNavigate } from "react-router-dom";
+// import $ from 'jquery';
+
 function Nav() {
-  return (
-    <nav class="navbar navbar-expand-sm navbar-dark">
-  {/* <a className="navbar-brand" href="#">Student Fees Management System</a> */}
-  <img src="https://www.ddu.ac.in/images/logo.png" alt='ErroImage'></img>
-  {/* <h1 className="navbar-brand">Student Fees Management System</h1> */}
+  const nav = useNavigate();
+  const handleLogout = () => {
   
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-    <ul class="navbar-nav ">
-      <li class="nav-item ">
-        <a class="nav-link" href="/">LogIn </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/signup">SignIn</a>
-      </li>
-    </ul>
-  </div>
-</nav>
-  )
+    localStorage.clear();
+    nav('/');
+  }
+
+  // useEffect(() => {
+  //   // use jquery here if you must, this way the component is loaded 
+  //   // and the dom matches whats in react (or should)
+  //   $('.nav-item').on('click', function() {
+  //     $('.active-link').removeClass('active-link');
+  //     $(this).addClass('active-link');
+  //   });
+  // }, []);
+
+
+  return (
+    <>
+      <nav className="navbar navbar-expand-sm navbar-dark" fixed="top">
+        <a href="/home">
+          <img src={img5} alt="ErroImage" style={{"width" : 85 + '%' }}></img>
+        </a>
+
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div
+          className="collapse navbar-collapse justify-content-end navbar-container"
+          id="navbarNav"
+        >
+          <ul className="navbar-nav ">
+          <li className="nav-item active-link">
+              <a className="nav-link active" href="/home">
+                Home
+              </a>
+              <div class="underline"></div>
+            </li>
+            <li className="nav-item ">
+              <a className="nav-link active" href="/home/addstudents">
+                Add Students
+              </a>
+              <div class="underline"></div>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link active" href="/home/viewstudents">
+                Edit & Remainder
+              </a>
+              <div class="underline"></div>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link active" href="/home/notifystudents">
+                View Response
+              </a>
+              <div class="underline"></div>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link active" href="/" onClick={handleLogout}>
+                LogOut
+              </a>
+              <div class="underline"></div>
+            </li>
+            {/* <li className="nav-item">
+            <button type="primary" onClick={handleLogout}>LogOut</button> 
+            
+            </li> */}
+          </ul>
+        </div>
+      </nav>
+    </>
+  );
 }
 
-export default Nav
+export default Nav;
