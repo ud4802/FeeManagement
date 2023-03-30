@@ -33,7 +33,7 @@ router.post("/", async (req, res) => {
 				token: crypto.randomBytes(32).toString("hex"),
 			}).save();
 		}
-		const url = `${process.env.BASE_URL}password-reset/${user._id}/${token.token}/`;
+		const url = `${process.env.BASE_URL}password-reset/${user._id}/${token.token}/`; 
 
 		// connect to amqp cloud
 		// amqp.connect(process.env.RABBITMQ_URI, (err, connection) => {
@@ -91,6 +91,7 @@ router.get("/:id/:token", async (req, res) => {
 
 //  reset password
 router.post("/:id/:token", async (req, res) => {
+	console.log(req.body);
 	try {
 		const passwordSchema = Joi.object({
 			password: passwordComplexity().required().label("Password"),
@@ -99,6 +100,7 @@ router.post("/:id/:token", async (req, res) => {
 		if (error)
 			return res.status(400).send({ message: error.details[0].message });
 
+		console.log("u");
 		const user = await User.findOne({ _id: req.params.id });
 		if (!user) return res.status(400).send({ message: "Invalid link" });
 

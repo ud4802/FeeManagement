@@ -22,6 +22,14 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    verified: {
+        type: String,
+        default: "false"
+    },
+    branch: {
+        type: String,
+        required: true
+    },
     refreshToken: String
 });
 
