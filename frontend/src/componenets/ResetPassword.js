@@ -1,27 +1,17 @@
-import { useEffect, useState, Fragment, useReducer } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
-// import Button from "react-bootstrap/Button";
 import {
   faCheck,
   faTimes,
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import {
-//     faCheck,
-//     faTimes,
-//     faInfoCircle,
-//   } from "@fortawesome/free-solid-svg-icons";
 
-// const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const PasswordReset = () => {
   const [validUrl, setValidUrl] = useState(false);
-  // const [password, setPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
   const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
   const param = useParams();
@@ -62,7 +52,11 @@ const PasswordReset = () => {
     setError("");
 
     try {
-      const { data } = await axios.post(url, { pwd });
+      const password = pwd;
+      const { data } = await axios.post(url, JSON.stringify({ password }), {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
       setMsg(data.message);
       setError("");
       window.location = "/";
@@ -80,46 +74,12 @@ const PasswordReset = () => {
 
   return (
     <>
-      {/* {validUrl ? ( */}
-	  <br/>
-	  <br/>
-	  <br/>
-	  <br/>
-	  <br/>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <section>
-        {/* <form >
-						<div className="form-group">
-						<h2>Reset Password</h2>
-						
-						<input
-							type="password"
-							placeholder="Password"
-							className="form-control"
-							name="password"
-							onChange={(e) => setPassword(e.target.value)}
-							value={password}
-							required
-							
-                            />
-                            <br/>
-						<input
-							type="password"
-							className="form-control"
-							placeholder="Confirm Password"
-							name="confirm_password"
-							onChange={(e) => setConfirmPassword(e.target.value)}
-							value={confirmPassword}
-							required
-							
-                            />
-						{error && <div >{error}</div>}
-						{msg && <div >{msg}</div>}
-						
-						<div className="align">
-          <Button variant="outline-dark" onClick={(e) => { handleSubmit(e) }}>Reset</Button>
-        </div>
-						</div>
-					</form> */}
         <div className="form-group">
           <label htmlFor="password">
             Password:
@@ -198,18 +158,20 @@ const PasswordReset = () => {
             Must match the first password input field.
           </p>
         </div>
-        {error && <div >{error}</div>}
-						{msg && <div >{msg}</div>}
-						
-						<div className="align">
-          <Button variant="outline-dark" onClick={(e) => { handleSubmit(e) }}>Reset</Button>
+        {error && <div>{error}</div>}
+        {msg && <div>{msg}</div>}
+
+        <div className="align">
+          <Button
+            variant="outline-dark"
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
+          >
+            Reset
+          </Button>
         </div>
-						{/* </div> */}
       </section>
-      {/* 				
-			) : (
-				<h1>404 Not Found</h1>
-			)} */}
     </>
   );
 };

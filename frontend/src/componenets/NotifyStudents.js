@@ -189,20 +189,18 @@ function NotifyStudents() {
       title: "Response",
       render: (text, record) => {
         var result = userData.find(({ email }) => email === record.email);
-        console.log(result.response);
+        // console.log(result.response);
         return (
           <>
             {result.response ? (
               <Button
                 type="link"
                 htmlType="submit"
-                // disabled={result.response === "false" ? true : false}
                 onClick={() => {
                   console.log(record.email);
-                  // const result = userData.find(({ email }) => email === record.email);
-                  record.response = result.response;
                   console.log(result.response);
-                  window.open(result.response, "_blank");
+                  var url = viewResponse(result.response);
+                  window.open(url, "_blank");
                 }}
               >
                 View
@@ -220,38 +218,6 @@ function NotifyStudents() {
   ];
 
   const [pdfUrl, setPdfUrl] = useState(null);
-
-  //view response then show view button
-
-  // const onFinish = async (values) => {
-
-  //   console.log(Row);
-  //   var pdfData = await axios.post("/receive", {Row}, {
-
-  //   });
-
-  //     console.log(pdfData.data);
-  //     // if(pdfData.data==="no response")
-  //     // {
-  //     //   console.log("hii");
-  //     // }
-  //     if(pdfData.data.startsWith("https:")==true)
-  //     {
-  //       window.location.href = pdfData.data;
-  //     }
-
-  //     const binaryData = atob(pdfData.data.substr('data:application/pdf;base64,'.length));
-  //     const array = [];
-  //     for (let i = 0; i < binaryData.length; i++) {
-  //       array.push(binaryData.charCodeAt(i));
-  //     }
-  //     const blob = new Blob([new Uint8Array(array)], { type: 'application/pdf' });
-  //     const url = URL.createObjectURL(blob);
-  //     console.log(url);
-  //     // setPdfUrl(url);
-  //     window.open(url, '_blank');
-
-  // }
 
   const [userData, setUserdata] = useState([]);
   const [sem, setSem] = useState("");
@@ -276,24 +242,7 @@ function NotifyStudents() {
     }
   }, [year]);
 
-  //read email
-  // useEffect(() => {
-  //   let interval = setInterval(async () => {
-  //     var pdfData = await axios.post("/receive", { data }, {
-
-  //     });
-  //     console.log(pdfData.data[0].response);
-  //     // render();
-  //     viewResponse(pdfData.data);
-
-  //   }, 4000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // });
-
   const handleUpload = async (e) => {
-    const uemail = loggedInUser.data;
     const listData = await axios.post(
       "/api",
       JSON.stringify({ sem, year, at }),
@@ -302,14 +251,8 @@ function NotifyStudents() {
         withCredentials: true,
       }
     );
-    setUserdata(listData.data);
 
-    // console.log(
-    //   listData.data[0].name,
-    //   listData.data[0].sem,
-    //   listData.data[0].year,
-    //   userData.data[0].name
-    // );
+    setUserdata(listData.data);
   };
 
   console.log(sem);
@@ -319,15 +262,6 @@ function NotifyStudents() {
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const start = () => {
-    setLoading(true);
-    // ajax request after empty completing
-    setTimeout(() => {
-      setSelectedRowKeys([]);
-      setLoading(false);
-    }, 1000);
-  };
 
   for (var k = 0; k < userData.length; k++) {
     data.push({
@@ -339,7 +273,7 @@ function NotifyStudents() {
       email: userData[k].email,
       mobileno: userData[k].mobileno,
       status: userData[k].status,
-      response: false,
+      response: userData[k].response,
     });
   }
   console.log(data);
@@ -366,8 +300,7 @@ function NotifyStudents() {
       .catch((error) => {
         console.log(error);
       });
-      handleUpload();
-
+    handleUpload();
   };
 
   const unverify = async (e) => {
@@ -377,124 +310,61 @@ function NotifyStudents() {
       .then((response) => {
         console.log(response.data);
         setUserdata(response.data);
-        
       })
       .catch((error) => {
         console.log(error);
       });
-      handleUpload();
-
+    handleUpload();
   };
 
-  // var pdfData;
-  // var url;
-  // const [pdfUrl, setPdfUrl] = useState(null);
-
-  // const openPdf = () => {
-  //   window.open(pdfUrl, '_blank');
-  // };
-
-  // const showPdf = async (e) => {
-  //   var pdfData = await axios.post("/receive", {
-  //     // headers: { "Content-Type": "application/pdf" },
-  //     // withCredentials: true,
-
-  //     // headers: { "Content-Type": "application/pdf" },
-  //   });
-
-  //   console.log(pdfData.data);
-
-  //   const binaryData = atob(pdfData.data.substr('data:application/pdf;base64,'.length));
-  //   const array = [];
-  //   for (let i = 0; i < binaryData.length; i++) {
-  //     array.push(binaryData.charCodeAt(i));
+  // const handleRefresh = async () => {
+  //   var pdfData = await axios.post("/receive", { data, at });
+  //   console.log(typeof pdfData.data[0]);
+  //   if (typeof pdfData.data[0] === "string") {
+  //     console.log("byy");
+  //     ExpireToken(pdfData.data);
+  //   } else {
+  //     viewResponse(pdfData.data);
   //   }
-  //   const blob = new Blob([new Uint8Array(array)], { type: 'application/pdf' });
-  //   url = URL.createObjectURL(blob);
-  //   console.log(url);
-  //   setPdfUrl(url);
-
-  //   // const pdfBlob = new Blob([window.atob(pdfData.data)], { type: pdfData.mimeType });
-  //   // setPdfUrl(window.URL.createObjectURL(pdfBlob));
-
-  // }
-  const handleRefresh = async () => {
-    var pdfData = await axios.post("/receive", { data, at });
-    console.log(typeof pdfData.data[0]);
-    if (typeof pdfData.data[0] === "string") {
-      console.log("byy");
-      ExpireToken(pdfData.data);
-    } else {
-      viewResponse(pdfData.data);
-    }
-    // handleUpload();
-  };
+  // };
 
   const ExpireToken = (pdfData) => {
     window.location.href = pdfData;
   };
 
   const viewResponse = (pdfData) => {
-    for (var k = 0; k < pdfData.length; k++) {
-      if (pdfData[k].response == false) {
-      } else if (
-        pdfData[k].response.startsWith("data:application/pdf;base64,") == true
-      ) {
-        const binaryData = atob(
-          pdfData[k].response.substr("data:application/pdf;base64,".length)
-        );
-        const array = [];
-        for (let i = 0; i < binaryData.length; i++) {
-          array.push(binaryData.charCodeAt(i));
-        }
-        const blob = new Blob([new Uint8Array(array)], {
-          type: "application/pdf",
-        });
-        const url = URL.createObjectURL(blob);
-        console.log(url);
-        // pdfData[k].response = url;
-        const result = data.find(({ email }) => email === pdfData[k].email);
-        result.response = url;
-        console.log(data);
-        const updatedUserData = [...data];
-        setUserdata(updatedUserData);
-        console.log(userData);
-        // setPdfData(pdfData);
+    if (pdfData == false) {
+    } else if (pdfData.startsWith("data:application/pdf;base64,") == true) {
+      const binaryData = atob(
+        pdfData.substr("data:application/pdf;base64,".length)
+      );
+      const array = [];
+      for (let i = 0; i < binaryData.length; i++) {
+        array.push(binaryData.charCodeAt(i));
       }
+      const blob = new Blob([new Uint8Array(array)], {
+        type: "application/pdf",
+      });
+      const url = URL.createObjectURL(blob);
+      console.log(url);
+
+      return url;
     }
+    // }
   };
 
   return (
     <>
       {auth.user ? (
         <>
-          {/* <div>NotifyStudents</div> */}
-          {/* <div className="jumbotron"> */}
-          {/* <div className="container"> */}
-          {/* <header> */}
-          {/* <h1 class="display-1">Notify students</h1>
-          <p className="lead">
-            Notify students regarding to their fees payment.
-          </p> */}
-          <div
-          // style={{ position: "fixed" }}
-          >
-            <h1 class="display-1">Notify students</h1>
+          <div>
+            <h1 class="display-1">Verify students</h1>
             <p className="lead">
-              Notify students regarding to their fees payment.
+              Verify students according to their fees payment.
             </p>
           </div>
-          {/* </header> */}
-          {/* </div> */}
-          {/* </div> */}
-          {/* <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/> */}
-          <div
-          // style={{ position: "fixed" }}
-          >
+
+          <div>
             <section4 class="search">
               <label for="exampleInputEmail1">Semester : </label>
               &nbsp; &nbsp;
@@ -526,7 +396,6 @@ function NotifyStudents() {
                   className={validYear || !year ? "hide" : "invalid"}
                 />
               </label>
-              {/* <br/> */}
               &nbsp; &nbsp; &nbsp; &nbsp;
               <div>
                 <input
@@ -543,9 +412,7 @@ function NotifyStudents() {
                   maxLength="9"
                   style={{ width: "200px" }}
                 />
-                {/* </div>
-              &nbsp; &nbsp; &nbsp; &nbsp;
-              <div> */}
+
                 <p
                   id="yearnote"
                   className={
@@ -556,9 +423,9 @@ function NotifyStudents() {
                   <li>
                     Entered Year Should be in <b>yyyy-yyyy</b> Formate only.
                   </li>
-                  {/* <br /> */}
-                  <li>And difference between both years should be exactly 4.</li>
-                  {/* <br/> */}
+                  <li>
+                    And difference between both years should be exactly 4.
+                  </li>
                   eg.,{" "}
                   <span style={{ color: "green" }}>
                     2020-2024,2024-2028 etc.
@@ -574,7 +441,6 @@ function NotifyStudents() {
               </div>
               <br />
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              {/* <div className="align"> */}
               <button
                 type="submit"
                 onClick={(e) => {
@@ -585,9 +451,7 @@ function NotifyStudents() {
               >
                 Submit
               </button>
-              {/* </div> */}
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              {/* <div className="align">  */}
               <button
                 type="primary"
                 onClick={verify}
@@ -603,18 +467,10 @@ function NotifyStudents() {
               >
                 Unverify
               </button>
-              {/* </div> */}
             </section4>
           </div>
 
-          <div
-            className="refresh-button-container"
-          // style={{position:"fixed"}}
-          >
-            <button className="refresh-button" onClick={handleRefresh}>
-              Refresh
-            </button>
-          </div>
+          <div className="refresh-button-container"></div>
 
           <div id="table">
             <div
@@ -622,10 +478,6 @@ function NotifyStudents() {
                 marginBottom: 16,
               }}
             >
-              {/* <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
-          Reload
-        </Button> */}
-
               <span
                 style={{
                   marginLeft: 8,
@@ -634,10 +486,8 @@ function NotifyStudents() {
                 {hasSelected ? `Selected ${selectedRowKeys.length} items` : ""}
               </span>
             </div>
-            {/* <Table rowSelection={rowSelection} columns={columns} dataSource={data} /> */}
-            <div
-            // style={{position:"fixed",marginTop:"220px"}}
-            >
+
+            <div>
               <Form form={form}>
                 <Table
                   rowSelection={{
@@ -649,7 +499,7 @@ function NotifyStudents() {
                         list.push([r1[k].email, r1[k].status]);
                         select(list.length);
                       }
-                      //list.push(r1[0].email);
+
                       console.log(list);
                     },
                   }}

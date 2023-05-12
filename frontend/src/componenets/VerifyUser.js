@@ -2,11 +2,9 @@ import React from "react";
 import Button from "react-bootstrap/esm/Button";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import {  useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Label } from "reactstrap";
-
-
 
 function VerifyUser() {
   const navigate = useNavigate();
@@ -19,7 +17,7 @@ function VerifyUser() {
     try {
       const u = await axios.post(url);
       setUser(u);
-      // console.log(u);
+
       console.log(user);
     } catch (error) {
       console.log(error);
@@ -40,19 +38,21 @@ function VerifyUser() {
       <h2 className="display-2">Verify the user having Data : </h2>
       <section style={{ justifyItems: "center" }}>
         <div className="align">
-        <Button className="outline-success" onClick={verifyUrl}>Fetch User Details</Button>
+          <Button className="outline-success" onClick={verifyUrl}>
+            Fetch User Details
+          </Button>
         </div>
         {user.data ? (
           <>
-            <Label title="Username : " description={user.data.username}/>
-            <Label title="Password : " description={user.data.email}/>
+            <Label title="Username : " description={user.data.username} />
+            <Label title="Password : " description={user.data.email} />
           </>
         ) : (
           ""
         )}
-        <br/>
-        <br/>
-        <br/>
+        <br />
+        <br />
+        <br />
 
         <div className="align">
           <Button variant="outline-success" onClick={verifyUser}>

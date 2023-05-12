@@ -1,39 +1,27 @@
-import { React, useEffect ,useContext} from "react";
-import img5 from "../DDU.png";
+import { React, useContext } from "react";
+import img5 from "../images/DDU.png";
 import { Navigate, useNavigate, NavLink } from "react-router-dom";
 import AuthContext from "../context/AuthProvider";
 
-
 function Nav() {
-
   const loggedInUser = localStorage.getItem("auth");
   const loggedInAdmin = localStorage.getItem("admin");
-  // const { setAuth } = useContext(AuthContext);
-  const { logout, } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   const at = useContext(AuthContext);
-
 
   const nav = useNavigate();
   const handleLogout = () => {
-    // setAuth({});
-    // logout();
-    // console.log(at);
     localStorage.clear();
-    nav('/');
-  }
-
-
-
+    nav("/");
+  };
 
   return (
     <>
       {loggedInUser ? (
         <>
-
-
           <nav className="navbar navbar-expand-sm navbar-dark" fixed="top">
             <a href="/home">
-              <img src={img5} alt="ErroImage" style={{ "width": 85 + '%' }}></img>
+              <img src={img5} alt="ErroImage" style={{ width: 85 + "%" }}></img>
             </a>
 
             <button
@@ -55,7 +43,7 @@ function Nav() {
                 activeClassName="navbar__l--active"
                 className="navbar__l"
                 style={({ isActive }) => ({
-                  color: isActive ? '#f69d29' : 'white'
+                  color: isActive ? "#f69d29" : "white",
                 })}
                 to="/home"
               >
@@ -66,7 +54,7 @@ function Nav() {
                 activeClassName="navbar__l--active"
                 className="navbar__l "
                 style={({ isActive }) => ({
-                  color: isActive ? '#f69d29' : 'white'
+                  color: isActive ? "#f69d29" : "white",
                 })}
                 to="/addstudents"
               >
@@ -74,11 +62,10 @@ function Nav() {
               </NavLink>
 
               <NavLink
-
                 activeClassName="navbar__l--active"
                 className="navbar__l"
                 style={({ isActive }) => ({
-                  color: isActive ? '#f69d29' : 'white'
+                  color: isActive ? "#f69d29" : "white",
                 })}
                 to="/viewstudents"
               >
@@ -86,39 +73,36 @@ function Nav() {
               </NavLink>
 
               <NavLink
-
                 activeClassName="navbar__l--active"
                 className="navbar__l"
                 style={({ isActive }) => ({
-                  color: isActive ? '#f69d29' : 'white'
+                  color: isActive ? "#f69d29" : "white",
                 })}
                 to="/notifystudents"
               >
                 View Response
               </NavLink>
               <NavLink
-                    activeClassName="navbar__l--active"
-                    className="navbar__l"
-                    style={({ isActive }) => ({
-                      color: isActive ? '#f69d29' : 'white'
-                    })}
-                    to="/globalsearch"
-                  >
-                    Global Search
-                  </NavLink>
-              <NavLink
-
                 activeClassName="navbar__l--active"
                 className="navbar__l"
                 style={({ isActive }) => ({
-                  color: isActive ? '#f69d29' : 'white'
+                  color: isActive ? "#f69d29" : "white",
+                })}
+                to="/globalsearch"
+              >
+                Global Search
+              </NavLink>
+              <NavLink
+                activeClassName="navbar__l--active"
+                className="navbar__l"
+                style={({ isActive }) => ({
+                  color: isActive ? "#f69d29" : "white",
                 })}
                 onClick={handleLogout}
                 to="/"
               >
                 LogOut
               </NavLink>
-
             </div>
           </nav>
         </>
@@ -126,10 +110,13 @@ function Nav() {
         <>
           {loggedInAdmin ? (
             <>
-
               <nav className="navbar navbar-expand-sm navbar-dark" fixed="top">
                 <a href="/home">
-                  <img src={img5} alt="ErroImage" style={{ "width": 85 + '%' }}></img>
+                  <img
+                    src={img5}
+                    alt="ErroImage"
+                    style={{ width: 85 + "%" }}
+                  ></img>
                 </a>
 
                 <button
@@ -152,7 +139,7 @@ function Nav() {
                     activeClassName="navbar__l--active"
                     className="navbar__l"
                     style={({ isActive }) => ({
-                      color: isActive ? '#f69d29' : 'white'
+                      color: isActive ? "#f69d29" : "white",
                     })}
                     to="/adminhome"
                   >
@@ -163,7 +150,7 @@ function Nav() {
                     activeClassName="navbar__l--active"
                     className="navbar__l"
                     style={({ isActive }) => ({
-                      color: isActive ? '#f69d29' : 'white'
+                      color: isActive ? "#f69d29" : "white",
                     })}
                     to="/adminview"
                   >
@@ -174,7 +161,7 @@ function Nav() {
                     activeClassName="navbar__l--active"
                     className="navbar__l"
                     style={({ isActive }) => ({
-                      color: isActive ? '#f69d29' : 'white'
+                      color: isActive ? "#f69d29" : "white",
                     })}
                     to="/viewuser"
                   >
@@ -185,7 +172,7 @@ function Nav() {
                     activeClassName="navbar__l--active"
                     className="navbar__l"
                     style={({ isActive }) => ({
-                      color: isActive ? '#f69d29' : 'white'
+                      color: isActive ? "#f69d29" : "white",
                     })}
                     onClick={handleLogout}
                     to="/"
@@ -194,13 +181,16 @@ function Nav() {
                   </NavLink>
                 </div>
               </nav>
-
             </>
           ) : (
             <>
               <nav className="navbar navbar-expand-sm navbar-dark " fixed="top">
                 <a href="/home">
-                  <img src={img5} alt="ErroImage" style={{ "width": 85 + '%' }}></img>
+                  <img
+                    src={img5}
+                    alt="ErroImage"
+                    style={{ width: 85 + "%" }}
+                  ></img>
                 </a>
 
                 <button

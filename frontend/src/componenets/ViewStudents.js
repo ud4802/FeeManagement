@@ -10,7 +10,7 @@ import {
 import axios from "../api/axios";
 import { useRef, useState, useEffect, useContext } from "react";
 import Highlighter from "react-highlight-words";
-import { Await, Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { Badge } from "react-bootstrap";
 import AuthContext from "../context/AuthProvider";
 
@@ -27,8 +27,6 @@ function ViewStudents() {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
-  const [emailCount, setEmailCount] = useState(0);
-  // const [newEmailCount , setNewEmailCount] = useState(0);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -163,7 +161,6 @@ function ViewStudents() {
               ]}
             >
               <Input />
-              {/* <span className="badge">{emailCount}</span> */}
             </Form.Item>
           );
         } else {
@@ -187,32 +184,18 @@ function ViewStudents() {
                 },
               ]}
             >
-              {/* <span className="badge"></span> */}
-              {/* <Badge count={emailCount}/> */}
               <Input />
             </Form.Item>
           );
         }
-        // else {
-        // }
         const result = data.find(({ email }) => email === record.email);
-        return (<p>{text}&nbsp;&nbsp;&nbsp;<Badge>{result.emailcount}</Badge></p>);
-        // <Badge>{emailCount}</Badge>
+        return (
+          <p>
+            {text}&nbsp;&nbsp;&nbsp;<Badge>{result.emailcount}</Badge>
+          </p>
+        );
       },
     },
-    // {
-    //   title: "Sent",
-    //   dataIndex: "sent",
-    //   render: (text, record) => {
-    //     // if (editingRow === record.key) {
-    //     //   return (<Badge>Hello</Badge>);
-
-    //     // } else {
-    //     //   return (<Badge>{emailCount+1}</Badge>);
-    //     // }
-
-    //   },
-    // },
     {
       title: "Sem",
       dataIndex: "sem",
@@ -298,7 +281,7 @@ function ViewStudents() {
           return <p>{text}</p>;
         }
       },
-      // ...getColumnSearchProps('status'),
+
       filters: [
         {
           text: "Paid",
@@ -324,7 +307,6 @@ function ViewStudents() {
                 form.setFieldsValue({
                   id: record.id,
                   name: record.name,
-                  // sent: emailCount,
                   sem: sem,
                   year: year,
                   email: record.email,
@@ -347,7 +329,6 @@ function ViewStudents() {
               onClick={() => {
                 handleDelete(record.email);
               }}
-            // disabled={!editingRow}
             >
               Delete
             </Button>
@@ -358,7 +339,6 @@ function ViewStudents() {
   ];
 
   const handleDelete = async (e) => {
-    // alert('Delete');
     console.log(e);
     const response = await axios.post("/delete", {
       sem,
@@ -369,22 +349,6 @@ function ViewStudents() {
     console.log(response.data);
     setUserdata(response.data);
   };
-
-  // useEffect(() => {
-
-  //   let interval = setInterval(async () => {
-  //    const listData = await axios.post("/api", JSON.stringify({ sem, year,loggedInUser }), {
-  //     headers: { "Content-Type": "application/json" },
-  //     withCredentials: true,
-  //   });
-  //   setUserdata(listData.data);
-
-  //   }, 3000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-
-  // }, []);
 
   const onFinish = async (values) => {
     const updatedUserData = [...userData];
@@ -399,7 +363,6 @@ function ViewStudents() {
       year,
       at,
     });
-    // console.log(response.data);
   };
   const [userData, setUserdata] = useState([]);
   const [sem, setSem] = useState("");
@@ -424,7 +387,6 @@ function ViewStudents() {
     }
   }, [year]);
 
-
   const handleUpload = async (e) => {
     const listData = await axios.post(
       "/api",
@@ -435,13 +397,6 @@ function ViewStudents() {
       }
     );
     setUserdata(listData.data);
-
-    // console.log(
-    //   listData.data[0].name,
-    //   listData.data[0].sem,
-    //   listData.data[0].year,
-    //   userData.data[0].name
-    // );
   };
 
   console.log(sem);
@@ -452,15 +407,6 @@ function ViewStudents() {
   const [enable, setEnable] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const start = () => {
-    setLoading(true);
-    // ajax request after empty completing
-    setTimeout(() => {
-      setSelectedRowKeys([]);
-      setLoading(false);
-    }, 1000);
-  };
 
   for (var k = 0; k < userData.length; k++) {
     data.push({
@@ -484,63 +430,55 @@ function ViewStudents() {
     }
   };
 
-  
-
   console.log(userData);
   console.log(data);
 
-  // const hasSelected = 0;
-  
-  const [success,setSuccess] = useState(null);
+  const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
-  const sendEmail =  (event) => {
-    // console.log(list);
+  const sendEmail = (event) => {
     event.preventDefault();
-    try{
-      const response =  axios.post("/mail",{list,at});
+    try {
+      const response = axios.post("/mail", { list, at });
       console.log(response);
       setSuccess("Email Sent Successfully");
       setTimeout(() => {
         setSuccess("");
       }, 3000);
       setError("");
-    }catch(error){
+    } catch (error) {
       setError("Error sending Email.");
       setTimeout(() => {
-        setError('');
+        setError("");
       }, 3000);
       setError("");
     }
-    };
+  };
   return (
     <>
       {auth.user ? (
         <>
-        <div>
-            {success && <div>{success}</div>}
+          <div>
+            {success && (
+              <div class="alert alert-success" role="alert">
+                {success}
+              </div>
+            )}
           </div>
           <div>
-            {error && <div>{error}</div>
-              
-              
-            }
+            {error && (
+              <div class="alert alert-danger" role="alert">
+                {error}
+              </div>
+            )}
           </div>
-          {/* <header> */}
-          <div id="index"
-          // style={{position:"fixed"}}
-          >
+          <div id="index">
             <h1 class="display-1">View Students</h1>
-            <p className="lead" >
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View Student Reocords and edit them accordingly.
+            <p className="lead">
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;View Student Reocords and edit them
+              accordingly.
             </p>
           </div>
-          {/* <br />
-          <br />
-          <br />
-          <br />
-          <br /> */}
-          {/* </header> */}
-          <div >
+          <div>
             <section4 class="search1">
               <label for="exampleInputEmail1">Semester : </label>
               &nbsp; &nbsp;
@@ -561,10 +499,8 @@ function ViewStudents() {
                 <option value="8">8</option>
               </select>
               &nbsp; &nbsp; &nbsp; &nbsp;
-              {/* <div className="form-group"> */}
               <label for="academicyear" className="form-label">
                 Academic Year :
-                &nbsp;&nbsp;
                 <FontAwesomeIcon
                   icon={faCheck}
                   className={validYear ? "valid" : "hide"}
@@ -574,8 +510,7 @@ function ViewStudents() {
                   className={validYear || !year ? "hide" : "invalid"}
                 />
               </label>
-              {/* <br/> */}
-              {/* &nbsp; &nbsp; &nbsp; &nbsp; */}
+              &nbsp;&nbsp;
               <div>
                 <input
                   type="text"
@@ -591,9 +526,7 @@ function ViewStudents() {
                   maxLength="9"
                   style={{ width: "200px" }}
                 />
-                {/* </div>
-              &nbsp; &nbsp; &nbsp; &nbsp;
-              <div> */}
+
                 <p
                   id="yearnote"
                   className={
@@ -604,11 +537,9 @@ function ViewStudents() {
                   <li>
                     Entered Year Should be in <b>yyyy-yyyy</b> Formate only.
                   </li>
-                  {/* <br /> */}
                   <li>
                     And difference between both years should be exactly 4.
                   </li>
-                  {/* <br/> */}
                   eg.,{" "}
                   <span style={{ color: "green" }}>
                     2020-2024,2024-2028 etc.
@@ -622,88 +553,56 @@ function ViewStudents() {
                   are <span style={{ color: "red" }}>invalid.</span>
                 </p>
               </div>
-              {/* &nbsp;&nbsp;&nbsp; */}
-              {/* <div class="form-group">
-              <input
-                type="text"
-                class="form-control"
-                id="exampleInputEmail1"
-                placeholder="e.g. 2020-2024"
-                required
-                onChange={(e) => setYear(e.target.value)}
-                value={year}
-              />
-            </div>
-            <br /> */}
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              {/* <div className="align"> */}
               <button
                 type="submit"
                 onClick={(e) => {
                   handleUpload(e);
                 }}
                 class="btn btn-secondary btn-sm"
-              // required
-              // disabled="true"
               >
                 Submit
               </button>
-              {/* </div> */}
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              {/* <div className="align"> */}
               <button
                 onClick={sendEmail}
                 type="submit"
                 class="btn btn-warning btn-sm"
-              // disabled={!enable ? true : false} 
               >
                 Send
               </button>
-              {/* </div> */}
             </section4>
           </div>
 
-          <div  >
+          <div>
             <div
               style={{
                 marginBottom: 16,
               }}
             >
-
-
               <span
                 style={{
                   marginLeft: 8,
                 }}
               >
-                {hasSelected
-                  ? `Selected ${selectedRowKeys.length} items`
-                  : ""}
+                {hasSelected ? `Selected ${selectedRowKeys.length} items` : ""}
               </span>
             </div>
           </div>
-          {/* <Table rowSelection={rowSelection} columns={columns} dataSource={data} /> */}
+
           <div id="table">
             <Form form={form} onFinish={onFinish}>
               <Table
-
                 rowSelection={{
                   type: "checkbox",
 
                   onChange: (record, r1) => {
-                    // list.pop();
                     list.splice(0, list.length);
                     for (var k = 0; k < r1.length; k++) {
                       list.push(r1[k].email);
                       select(list.length);
                       console.log(list);
                     }
-                    // list.push(r1[0].email);
-                    // if (list.length>0) {
-                    //   setEnable(true);
-                    // } else {
-                    //   setEnable(false);
-                    // }
                   },
                 }}
                 columns={columns}
@@ -719,7 +618,6 @@ function ViewStudents() {
       ) : (
         <Navigate replace to="/"></Navigate>
       )}
-      {/* //Dropdown */}
     </>
   );
 }

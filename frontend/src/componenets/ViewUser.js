@@ -4,10 +4,7 @@ import axios from "../api/axios";
 import AuthContext from "../context/AuthProvider";
 
 function ViewUser() {
-
   const { admin } = useContext(AuthContext);
-
-
 
   const columns = [
     {
@@ -45,20 +42,16 @@ function ViewUser() {
               onClick={() => {
                 handleUnverify(record.email);
               }}
-            // disabled={!editingRow}
             >
               Unverify
             </Button>
           </>
         );
       },
-
-    }
+    },
   ];
 
-
   const handleUnverify = (e) => {
-    // console.log(e.email);
     axios
       .post("/adminunverify", { admin, e })
       .then((res) => {
@@ -67,7 +60,7 @@ function ViewUser() {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   const handleVerify = (e) => {
     console.log(e);
@@ -79,10 +72,9 @@ function ViewUser() {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   const [userData, setUserData] = useState([]);
-
 
   useEffect(() => {
     console.log(admin);
@@ -95,7 +87,6 @@ function ViewUser() {
         console.log(err);
       });
   }, []);
-
 
   console.log(userData);
   const data = [];
@@ -110,11 +101,8 @@ function ViewUser() {
   }
   return (
     <div>
-      <br />
-      <br />
-      <h1 class="display-3">Co-ordinator Details : </h1>
-      <br />
-      <br />
+      
+      <h1 class="display-4">Co-ordinator Details : </h1>
       <div id="table">
         <Table
           columns={columns}

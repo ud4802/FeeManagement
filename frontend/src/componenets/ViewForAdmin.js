@@ -8,7 +8,7 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "../api/axios";
-import { useRef, useState, useEffect,useContext } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import Highlighter from "react-highlight-words";
 import AuthContext from "../context/AuthProvider";
 
@@ -142,9 +142,9 @@ function ViewForAdmin() {
   const [form] = Form.useForm();
   //For Declaration of columns
   const columns = [
-  {
+    {
       title: "ID",
-      dataIndex : "id",
+      dataIndex: "id",
       render: (text, record) => {
         if (editingRow === record.key) {
           return (
@@ -158,7 +158,6 @@ function ViewForAdmin() {
               ]}
             >
               <Input />
-              {/* <span className="badge">{emailCount}</span> */}
             </Form.Item>
           );
         } else {
@@ -183,7 +182,6 @@ function ViewForAdmin() {
               ]}
             >
               <Input />
-              {/* <span className="badge">{emailCount}</span> */}
             </Form.Item>
           );
         } else {
@@ -191,20 +189,6 @@ function ViewForAdmin() {
         }
       },
     },
-    // {
-    //   title: "Sent",
-    //   dataIndex: "sent",
-    //   render:(text,record)=>{
-    //    if(editingRow === record.key){
-    //     return(
-    //       <span className="badge">{emailCount}</span>
-    //     );
-    //    }
-    //    else{
-    //     return <p>{emailCount}</p>
-    //    }
-    //   }
-    // },
     {
       title: "Sem",
       dataIndex: "sem",
@@ -259,7 +243,7 @@ function ViewForAdmin() {
     },
     {
       title: "MobileNo",
-      dataIndex : "mobileno",
+      dataIndex: "mobileno",
       render: (text, record) => {
         if (editingRow === record.key) {
           return (
@@ -290,7 +274,7 @@ function ViewForAdmin() {
           return <p>{text}</p>;
         }
       },
-      // ...getColumnSearchProps('status'),
+
       filters: [
         {
           text: "Paid",
@@ -316,7 +300,6 @@ function ViewForAdmin() {
       sem,
       year,
     });
-    // console.log(response.data);
   };
   const [userData, setUserdata] = useState([]);
   const [sem, setSem] = useState("");
@@ -342,108 +325,80 @@ function ViewForAdmin() {
   }, [year]);
 
   const handleUpload = async (e) => {
-    const listData = await axios.post("/listforadmin", JSON.stringify({ branch,sem, year ,at}), {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    });
+    const listData = await axios.post(
+      "/listforadmin",
+      JSON.stringify({ branch, sem, year, at }),
+      {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }
+    );
     setUserdata(listData.data);
-
-    // console.log(
-    //   listData.data[0].name,
-    //   listData.data[0].sem,
-    //   listData.data[0].year,
-    //   userData.data[0].name
-    // );
   };
 
   console.log(sem);
 
-  const list = [];
   const data = [];
 
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   for (var k = 0; k < userData.length; k++) {
     data.push({
       key: k,
-      id : userData[k].id,
+      id: userData[k].id,
       name: userData[k].name,
       sem: userData[k].sem,
       year: userData[k].year,
       email: userData[k].email,
-      mobileno : userData[k].mobileno,
+      mobileno: userData[k].mobileno,
       status: userData[k].status,
     });
   }
   var hasSelected = false;
-  const select = (e) => {
-    if (e > 0) {
-      hasSelected = true;
-    } else {
-      hasSelected = false;
-    }
-  };
-
- 
 
   console.log(userData);
   console.log(data);
   const [branch, setBranch] = useState("");
-  // const hasSelected = 0;
 
   return (
     <>
-      {/* {loggedInUser ? ( */}
-        <>
-         {/* <header> */}
-          <h1 class="display-1">View Students</h1>
-          <p className="lead">
-            View Student Reocords and edit them accordingly.
-          </p>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          {/* </header> */}
-          <section4 class="search">
-            <label for="exampleInputEmail1">Semester : </label>
-            &nbsp; &nbsp;
-            <select
-              class="form-select form-select-sm"
-              aria-label=".form-select-sm example"
-              onChange={(e) => setSem(e.target.value)}
-              value={sem}
-            >
-              <option selected>Select Semester</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-            </select>
-            &nbsp; &nbsp; &nbsp; &nbsp;
-
-
-            {/* <div className="form-group"> */}
-            <label for="academicyear" className="form-label">
-              Academic Year :
-              <FontAwesomeIcon
-                icon={faCheck}
-                className={validYear ? "valid" : "hide"}
-              />
-              <FontAwesomeIcon
-                icon={faTimes}
-                className={validYear || !year ? "hide" : "invalid"}
-              />
-            </label>
-            {/* <br/> */}
-            &nbsp; &nbsp; &nbsp; &nbsp;
-            <div>
+      <>
+        <h1 class="display-1">View Students</h1>
+        <p className="lead">View Student Reocords and edit them accordingly.</p>
+       <div>
+        <section4 class="search1">
+          <label for="exampleInputEmail1">Semester : </label>
+          &nbsp; &nbsp;
+          <select
+            class="form-select form-select-sm"
+            aria-label=".form-select-sm example"
+            onChange={(e) => setSem(e.target.value)}
+            value={sem}
+          >
+            <option selected>Select Semester</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+          </select>
+          &nbsp; &nbsp; &nbsp; &nbsp;
+          <label for="academicyear" className="form-label">
+            Academic Year :
+            <FontAwesomeIcon
+              icon={faCheck}
+              className={validYear ? "valid" : "hide"}
+            />
+            <FontAwesomeIcon
+              icon={faTimes}
+              className={validYear || !year ? "hide" : "invalid"}
+            />
+          </label>
+          &nbsp; &nbsp; &nbsp; &nbsp;
+          <div>
             <input
               type="text"
               class="form-control"
@@ -456,11 +411,9 @@ function ViewForAdmin() {
               onFocus={() => setYearFocus(true)}
               onBlur={() => setYearFocus(false)}
               maxLength="9"
-              style={{width:"200px"}}
-              />
-              {/* </div>
-              &nbsp; &nbsp; &nbsp; &nbsp;
-              <div> */}
+              style={{ width: "200px" }}
+            />
+
             <p
               id="yearnote"
               className={yeatFocus && !validYear ? "instructions" : "offscreen"}
@@ -469,9 +422,7 @@ function ViewForAdmin() {
               <li>
                 Entered Year Should be in <b>yyyy-yyyy</b> Formate only.
               </li>
-              {/* <br /> */}
               <li>And difference between both years should be exactly 4.</li>
-              {/* <br/> */}
               eg.,{" "}
               <span style={{ color: "green" }}>
                 2020-2024,2024-2028 etc.
@@ -483,98 +434,64 @@ function ViewForAdmin() {
               </span>{" "}
               are <span style={{ color: "red" }}>invalid.</span>
             </p>
-            </div>
-            
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <label for="exampleInputEmail1">Branch : </label>
-            &nbsp;&nbsp;
-            <select
-              class="form-select form-select-sm"
-              aria-label=".form-select-sm example"
-              onChange={(e) => setBranch(e.target.value)}
-              value={branch}
-              required
-            >
-              <option selected>Select Branch </option>
-              <option value="CE">CE</option>
-              <option value="IT">IT</option>
-              <option value="EC">EC</option>
-              <option value="CH">CH</option>
-              <option value="MH">MH</option>
-              <option value="IC">IC</option>
-              <option value="Cl">CL</option>
-              {/* <option value="8">8</option> */}
-            </select>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            {/* <div className="align"> */}
-              <button
-                type="submit"
-                onClick={(e) => {
-                  handleUpload(e);
-                }}
-                class="btn btn-secondary btn-sm"
-                // required
-              >
-                Submit
-              </button>
-            {/* </div> */}
-            {/* &nbsp;&nbsp;&nbsp;
-            <div className="align">
-              <button onClick={sendEmail} className="btn btn-warning btn-sm">
-                Send
-              </button>
-            </div> */}
-          </section4>
+          </div>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <label for="exampleInputEmail1">Branch : </label>
+          &nbsp;&nbsp;
+          <select
+            class="form-select form-select-sm"
+            aria-label=".form-select-sm example"
+            onChange={(e) => setBranch(e.target.value)}
+            value={branch}
+            required
+          >
+            <option selected>Select Branch </option>
+            <option value="CE">CE</option>
+            <option value="IT">IT</option>
+            <option value="EC">EC</option>
+            <option value="CH">CH</option>
+            <option value="MH">MH</option>
+            <option value="IC">IC</option>
+            <option value="Cl">CL</option>
+          </select>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <button
+            type="submit"
+            onClick={(e) => {
+              handleUpload(e);
+            }}
+            class="btn btn-secondary btn-sm"
+          >
+            Submit
+          </button>
+        </section4>
+        </div>
 
-          <div id="table">
-            <div
+        <div id="table">
+          <div
+            style={{
+              marginBottom: 16,
+            }}
+          >
+            <span
               style={{
-                marginBottom: 16,
+                marginLeft: 8,
               }}
             >
-              {/* <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
-          Reload
-        </Button> */}
-
-              <span
-                style={{
-                  marginLeft: 8,
-                }}
-              >
-                {hasSelected ? `Selected ${selectedRowKeys.length} items` : ""}
-              </span>
-            </div>
-            {/* <Table rowSelection={rowSelection} columns={columns} dataSource={data} /> */}
-            {/* <Form form={form} onFinish={onFinish}> */}
-              <Table
-                // rowSelection={{
-                //   // type: "checkbox",
-
-                //   onChange: (record, r1) => {
-                //     // list.pop();
-                //     list.splice(0, list.length);
-                //     for (var k = 0; k < r1.length; k++) {
-                //       list.push(r1[k].email);
-                //       select(list.length);
-                //     }
-                //     //list.push(r1[0].email);
-                //     console.log(list);
-                //   },
-                // }}
-                columns={columns}
-                dataSource={data}
-                sticky
-                scroll={{
-                  y: 600,
-                }}
-              />
-            {/* </Form> */}
+              {hasSelected ? `Selected ${selectedRowKeys.length} items` : ""}
+            </span>
           </div>
-        </>
-      {/* ) : (
-        <Navigate replace to="/"></Navigate>
-      )} */}
-      {/* //Dropdown */}
+
+          <Table
+            columns={columns}
+            dataSource={data}
+            sticky
+            scroll={{
+              y: 600,
+            }}
+          />
+        </div>
+      </>
     </>
   );
 }

@@ -4,8 +4,8 @@
   "description": "MongoDB tutorial",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server",
-    "dev": "nodemon server"
+    "start": "node server.js",
+    "dev": "node server.js"
   },
   "author": "Dave Gray",
   "license": "ISC",
@@ -20,6 +20,7 @@
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "cron": "^2.3.0",
     "crypto-js": "^4.1.1",
     "date-fns": "^2.23.0",
     "dotenv": "^10.0.0",
@@ -35,7 +36,9 @@
     "multer": "^1.4.5-lts.1",
     "node-localstorage": "^2.2.1",
     "nodemailer": "^6.9.0",
+    "pdf-parse": "^1.1.1",
     "pdf-to-base64": "^1.0.3",
+    "pdfjs-dist": "^3.5.141",
     "uuid": "^8.3.2",
     "xlsx": "^0.18.5"
   },

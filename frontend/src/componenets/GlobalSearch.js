@@ -1,4 +1,3 @@
-// import React from 'react'
 import React, { useEffect, useState, useRef, useContext } from "react";
 import axios from "../api/axios";
 import Button from "react-bootstrap/Button";
@@ -6,10 +5,9 @@ import { Table, Input, Space, Form } from "antd";
 import Highlighter from "react-highlight-words";
 import { SearchOutlined } from "@ant-design/icons";
 import AuthContext from "../context/AuthProvider";
-import { Card, CardGroup, Col, Modal, Row } from "react-bootstrap";
+import { Card, Col, Modal, Row } from "react-bootstrap";
 
 function GlobalSearch() {
-  const loggedInUser = localStorage.getItem("auth");
   const at = useContext(AuthContext);
 
   const [editingRow, setEditingRow] = useState(null);
@@ -18,7 +16,6 @@ function GlobalSearch() {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
-  // const [userData, setUserdata] = useState([]);
   const [userData, setUserData] = useState([]);
   const [showUpdateConfirmation, setShowUpdateConfirmation] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -153,7 +150,6 @@ function GlobalSearch() {
               ]}
             >
               <Input />
-              {/* <span className="badge">{emailCount}</span> */}
             </Form.Item>
           );
         } else {
@@ -178,7 +174,6 @@ function GlobalSearch() {
               ]}
             >
               <Input />
-              {/* <span className="badge">{emailCount}</span> */}
             </Form.Item>
           );
         } else {
@@ -186,7 +181,7 @@ function GlobalSearch() {
         }
       },
     },
-    
+
     {
       title: "Sem",
       dataIndex: "sem",
@@ -272,7 +267,6 @@ function GlobalSearch() {
           return <p>{text}</p>;
         }
       },
-      // ...getColumnSearchProps('status'),
       filters: [
         {
           text: "Paid",
@@ -287,11 +281,10 @@ function GlobalSearch() {
     },
   ];
 
-
-  useEffect(()=> {
+  useEffect(() => {
     fetchData();
-  },[]);
- 
+  }, []);
+
   const fetchData = async () => {
     console.log(at);
     try {
@@ -308,9 +301,8 @@ function GlobalSearch() {
     } catch (error) {
       console.log(error);
     }
-  }; 
+  };
 
-  
   const data = [];
   for (var k = 0; k < userData.length; k++) {
     data.push({
@@ -318,14 +310,13 @@ function GlobalSearch() {
       id: userData[k].id,
       name: userData[k].name,
       sem: userData[k].sem,
-      year: userData[k].year, 
+      year: userData[k].year,
       email: userData[k].email,
       mobileno: userData[k].mobileno,
       status: userData[k].status,
     });
   }
 
-  
   //code for delete with confirmation
   const handleDeleteAll = () => {
     setShowDeleteConfirmation(true);
@@ -345,7 +336,6 @@ function GlobalSearch() {
     setShowDeleteConfirmation(false);
   };
 
-
   const handleUpdate = () => {
     setShowUpdateConfirmation(true);
   };
@@ -361,10 +351,13 @@ function GlobalSearch() {
   const handleCancelUpdateAll = () => {
     setShowUpdateConfirmation(false);
   };
- 
+
   return (
     <>
-    <Modal show={showDeleteConfirmation} onClos={() => setShowDeleteConfirmation(false)}>
+      <Modal
+        show={showDeleteConfirmation}
+        onClos={() => setShowDeleteConfirmation(false)}
+      >
         <div class="confirmation">
           <p>Are you sure you want to delete all table items?</p>
           <Button variant="success" onClick={handleConfirmDeleteAll}>
@@ -376,8 +369,10 @@ function GlobalSearch() {
           </Button>
         </div>
       </Modal>
-      {/* ) : ( */}
-      <Modal show={showUpdateConfirmation} onClos={() => setShowUpdateConfirmation(false)}>
+      <Modal
+        show={showUpdateConfirmation}
+        onClos={() => setShowUpdateConfirmation(false)}
+      >
         <div class="confirmation">
           <p>Are you sure you want to update semester of all students ?</p>
           <Button variant="success" onClick={handleConfirmUpdateAll}>
@@ -390,17 +385,19 @@ function GlobalSearch() {
         </div>
       </Modal>
       <div className="card-gs">
-        {/* <CardGroup> */}
-
         <Row>
           <Col>
             <Card>
               <Card.Body>
                 <Card.Title>Delete data of all semester : </Card.Title>
-                {/* <br /> */}
+
                 <Card.Link>
-                  <Button variant="outline-danger btn-sm" 
-                  onClick={handleDeleteAll}>Delete</Button>
+                  <Button
+                    variant="outline-danger btn-sm"
+                    onClick={handleDeleteAll}
+                  >
+                    Delete
+                  </Button>
                 </Card.Link>
               </Card.Body>
             </Card>
@@ -410,49 +407,29 @@ function GlobalSearch() {
             <Card>
               <Card.Body>
                 <Card.Title>Update semeseter of all data :</Card.Title>
-                {/* <br /> */}
+
                 <Card.Link>
-                  <Button variant="outline-primary btn-sm" onClick={handleUpdate}>Update</Button>
+                  <Button
+                    variant="outline-primary btn-sm"
+                    onClick={handleUpdate}
+                  >
+                    Update
+                  </Button>
                 </Card.Link>
               </Card.Body>
             </Card>
           </Col>
           &nbsp;&nbsp;&nbsp;
-          {/* <Col id="col3">
-            <Card>
-              <Card.Body>
-                <Card.Title>Get all data of your Department : </Card.Title>
-                <Card.Link>
-                  <Button variant="outline-dark btn-sm" onClick={fetchData}>Get</Button>
-                </Card.Link>
-              </Card.Body>
-            </Card>
-          </Col> */}
         </Row>
-        {/* </CardGroup> */}
       </div>
       <div id="ref">
-      <Button variant="outline-dark btn-sm" onClick={fetchData}>Refresh</Button>
+        <Button variant="outline-dark btn-sm" onClick={fetchData}>
+          Refresh
+        </Button>
       </div>
 
       <div id="table">
-        {/* <div
-          style={{
-            marginBottom: 16,
-          }}
-        >
-         
-          <span
-            style={{
-              marginLeft: 8,
-            }}
-          >
-          
-          </span>
-        </div> */}
-     
         <Table
-         
           columns={columns}
           dataSource={data}
           sticky
@@ -460,7 +437,6 @@ function GlobalSearch() {
             y: 600,
           }}
         />
-        {/* </Form> */}
       </div>
     </>
   );

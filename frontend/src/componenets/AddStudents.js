@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "../api/axios";
-import { useRef, useState, useEffect,useContext } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import * as XLS from "xlsx";
 import xlfile from "./Model.xlsx";
@@ -11,20 +11,16 @@ import {
   faTimes,
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import TimerAlert from "./TimeAlert";
 import AuthContext from "../context/AuthProvider";
+
 const EXCEL_URL = "/upload";
-// const YEAR_REGEX = /^([0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9])$/;
-// const YEAR_REGEX = /^20\d{2}-(?:20|21|22|23)\d{2}$/
-// const YEAR_REGEX = /^(\d{4})-(\d{4})$/;
+
 const YEAR_REGEX = /^[0-9][0-9]\d{2}-([0-9][0-9]\d{2})$/;
 
-// import { Link } from 'react-router-dom';
 function AddStudents() {
   const loggedInUser = localStorage.getItem("auth");
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(null);
   const [data, setData] = useState(null);
   const [sem, setSem] = useState("");
   const userRef = useRef();
@@ -33,11 +29,9 @@ function AddStudents() {
   const [year, setYear] = useState("");
   const [validYear, setValidYear] = useState(true);
   const [yeatFocus, setYearFocus] = useState(false);
-  const {auth} = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
 
   useEffect(() => {
-    // const inputText = event.target.value;
-    // const regex = /^(\d{4})-(\d{4})$/;
     const matches = year.match(YEAR_REGEX);
     if (matches) {
       const startYear = Number(matches[0].substring(0, 4));
@@ -52,14 +46,6 @@ function AddStudents() {
       setValidYear(false);
     }
   }, [year]);
-
-  // const handleBlur = (e) => {
-  //   const inputText = e.target.value;
-  //   const YEAR_REGEX = /^([0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9])$/;
-  //   const isValidInput = YEAR_REGEX.test(inputText);
-  //   setValidYear(isValidInput);
-
-  // }
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -86,7 +72,7 @@ function AddStudents() {
   const [message, setMessage] = useState("");
   const handleUpload = (e) => {
     e.preventDefault();
-  
+
     var error = false;
     if (data) {
       data.forEach((row) => {
@@ -95,8 +81,8 @@ function AddStudents() {
           !row.RollNo ||
           !row.Name ||
           !row.Email ||
-          !row.MobileNo ||
-          !row.Status
+          !row.MobileNo 
+          ||!row.Status
         ) {
           error = true;
         }
@@ -105,7 +91,6 @@ function AddStudents() {
         setErrorMsg("Invalid data found in the uploaded file.");
         setSem("");
         setYear("");
-        // setFile(null);
         setTimeout(() => setErrorMsg(null), 3000); // clear error message after 3 seconds
       } else {
         setSuccessMsg("All data in the uploaded file is valid.");
@@ -113,7 +98,7 @@ function AddStudents() {
         try {
           const response = axios.post(EXCEL_URL, { data, sem, year, at });
           setMessage("File Uploaded Successfully.");
-          // setFile(null);
+
           setSem("");
           setYear("");
           setTimeout(() => setMessage(null), 3000); // clear success message after 3 seconds
@@ -129,106 +114,38 @@ function AddStudents() {
       setTimeout(() => setErrorMsg(null), 3000); // clear error message after 3 seconds
     }
   };
-  // const handleUpload =  (e) => {
-  //   e.preventDefault();
-  //   var error = false;
-  //   if (data) {
-  //     data.forEach((row) => {
-  //       if (
-  //         !row.ID ||
-  //         !row.RollNo ||
-  //         !row.Name ||
-  //         !row.Email ||
-  //         !row.MobileNo ||
-  //         !row.Status
-  //       ) {
-  //         error = true;
-  //       }
-  //       // else{
-  //       // try{
-  //       //   axios.post(EXCEL_URL,{data,sem,year});
-  //       //   alert("file uploaded successful.");
-  //       //   // setFile(null);
-  //       // }catch(error){
-  //       //   alert("Error Uploading file.");
-  //       //   // setError("Erro Uploading File.");
-  //       // }
-
-  //       // }
-  //     });
-  //     if (error) {
-  //       setError("Invalid data found in the uploaded file.");
-  //       setSem("");
-  //       setYear("");
-  //       setFile(null);
-  //     } else {
-  //       setSuccess("All data in the uploaded file is valid.");
-  //       // setMessage("Data Already Exist.");
-  //       try {
-  //         const response = axios.post(EXCEL_URL, { data, sem, year, loggedInUser });
-  //         // console.log(response.data.exists);
-  //         // if (response.data.exists) {
-  //           // } else {
-  //           setMessage("File Uploaded Successfully.");
-  //           setFile(null);
-  //           setSem("");
-  //           setYear("");
-  //         // }
-  //         // alert("file uploaded successfully.");
-  //       } catch (error) {
-  //         // alert("Error Uploading file.");
-  //         setError("Erro Uploading File.");
-  //       }
-  //     }
-  //   } else {
-  //     setError("Please upload a file first.");
-  //   }
-  // };
 
   return (
     <>
       {auth.user ? (
         <>
-          <h1 class="display-1">Add students</h1>
+          <h6 class="display-4">Add students</h6>
           <p className="lead">Upload XLSX file containing student details.</p>
-          {/* </header> */}
-          {/* </div> */}
-          {/* </div> */}
+
           <br />
           <br />
 
           <div>
-              {message && (
-                 <div class="alert alert-success" role="alert">
-                 <p>{message}</p>
-               </div>
-              )}
-            </div>
-            <div>
-              {errormsg && (
-                // <div class="alert alert-danger" role="alert">
-                //     <p>
-                //     {error}
-                // </p>
-                //   </div>
-                <div class="alert alert-danger" role="alert">
+            {message && (
+              <div class="alert alert-success" role="alert">
+                <p>{message}</p>
+              </div>
+            )}
+          </div>
+          <div>
+            {errormsg && (
+              <div class="alert alert-danger" role="alert">
                 <p>{errormsg}</p>
               </div>
-              )}
-            </div>
-            <div>
-              {successmsg && (
-                // <div class="alert alert-success" role="alert">
-                //     <p>
-                //     {success}
-                // </p>
-                //   </div>
-                <div class="alert alert-success" role="alert">
+            )}
+          </div>
+          <div>
+            {successmsg && (
+              <div class="alert alert-success" role="alert">
                 <p>{successmsg}</p>
               </div>
-              )}
-            </div>
-            
+            )}
+          </div>
 
           <section>
             <div>
@@ -236,17 +153,11 @@ function AddStudents() {
             </div>
             <div>
               <h6>Download Formate :</h6>
-              {/* <a href={xlfile} download>
-                <Button>Download</Button>
-             
-              </a> */}
-              <Link to={xlfile} target="_blank" download>
-                {/* <div className="align"> */}
 
+              <Link to={xlfile} target="_blank" download>
                 <button type="button" className="btn btn-success btn-sm">
                   Download
                 </button>
-                {/* </div> */}
               </Link>
             </div>
             <label for="exampleInputEmail1">Semester : </label>
@@ -285,16 +196,13 @@ function AddStudents() {
                 class="form-control"
                 id="academicyear"
                 onChange={(e) => setYear(e.target.value)}
-                // onBlur={handleBlur}
                 value={year}
                 required
                 aria-invalid={validYear ? "false" : "true"}
                 aria-describedby="yearnote"
                 onFocus={() => setYearFocus(true)}
                 onBlur={() => setYearFocus(false)}
-                // placeholder="e.g. 2020-2024"
               />
-              {/* {!validYear && <div style={{color:'red'}}>Invalid Year</div>} */}
             </div>
             <p
               id="yearnote"
@@ -304,9 +212,7 @@ function AddStudents() {
               <li>
                 Entered Year Should be in <b>yyyy-yyyy</b> Formate only.
               </li>
-              {/* <br /> */}
               <li>And difference between both years should be exactly 4.</li>
-              {/* <br/> */}
               eg.,{" "}
               <span style={{ color: "green" }}>
                 2020-2024,2024-2028 etc.
@@ -318,7 +224,7 @@ function AddStudents() {
               </span>{" "}
               are <span style={{ color: "red" }}>invalid.</span>
             </p>
-            {/* <br /> */}
+
             <br />
             <input type="file" accept=".xlsx" onChange={handleFileChange} />
 
@@ -334,7 +240,6 @@ function AddStudents() {
               </button>
             </div>
             <br />
-
           </section>
         </>
       ) : (
