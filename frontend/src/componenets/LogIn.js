@@ -1,22 +1,22 @@
 import { useRef, useState, useEffect, useContext } from "react";
 import AuthContext from "../context/AuthProvider";
-import { Navigate } from "react-router-dom";
+import { Navigate,Link,useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import { Button } from "reactstrap";
+import Button1 from "react-bootstrap/Button";
 
 const LOGIN_URL = "/auth";
-
 function LogIn() {
   const { setAuth } = useContext(AuthContext);
   const at = useContext(AuthContext);
   const userRef = useRef();
   const errRef = useRef();
-
+  
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState("");
-
+  
   useEffect(() => {
     userRef.current.focus();
   }, []);
@@ -24,7 +24,7 @@ function LogIn() {
   useEffect(() => {
     setErrMsg("");
   }, [user, pwd]);
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(user, pwd);
@@ -63,6 +63,7 @@ function LogIn() {
     }
   };
 
+  const navigate = useNavigate();
   return (
     <>
       {success ? (
@@ -109,7 +110,14 @@ function LogIn() {
                 <p>
                   <small>
                     <span className="line">
-                      <a href="/forgotp">Forgot Password?</a>
+                      {/* <Link to="/forgotp">Forgot password?</Link> */}
+                        {/* <Button1
+                        variant="outline-primary sm"
+                        onClick={() => navigate("/forgotp")}
+                      >
+                        Forget passwrod?
+                      </Button1> */}
+                      <a href ="" onClick={()=> navigate("/forgotp")}>Forgot password?</a>
                     </span>
                   </small>
                 </p>
@@ -125,10 +133,13 @@ function LogIn() {
                 {" "}
                 Don't have an Account?
                 <span className="line">
-                  <a href="/signup">Sign Up</a>
+                {/* <Link to="/signup">Sign Up?</Link> */}
+                {/* <Button1 variant="outline-dark" onClick={()=> navigate("/signup")}>Signup</Button1> */}
+                <a href ="" onClick={()=> navigate("/signup")}>Sign Up</a>
                 </span>
               </small>
             </p>
+          
           </section>
         </>
       )}

@@ -11,7 +11,7 @@ const print = async () => {
   gmail.readInboxContent(data);
 };
 
-const handleShedular = new CronJob("0 0 * * * *", function () {
+const handleShedular = new CronJob("0 * * * * *", function () {
   console.log("Running scheduler for per day.");
   print();
 });

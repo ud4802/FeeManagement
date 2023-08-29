@@ -34,10 +34,10 @@ function App() {
           <Route path="/adminLogin" element={<AdminLogin />} />
 
           <Route exact path="/login" element={<LogIn />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route exact path="/signup" element={<SignUp />} />
 
           <Route path="/home" element={<Home />} />
-          <Route path="/forgotp" element={<ForgotPassword />} />
+          <Route exact path="/forgotp" element={<ForgotPassword />} />
           <Route path="/resetsent" element={<ResetSent/>}/>
           <Route path="/adminverify" element={<VerifyUser />} />
 
